@@ -83,16 +83,18 @@ model.export(format="onnx", imgsz=640)  # use ONNX for GPU‑less inference if n
 ### 4  Run the System
 
 ```bash
-# Terminal 1 – launch entire stack
-ros2 launch rctr_robot bringup.launch.py
+# Terminal 1: Launch all nodes
+ros2 launch rctr_robot rctr_launch.py
 
-# Terminal 2 – monitor robot state\ nros2 topic echo /robot_state
+# Terminal 2: Monitor status
+ros2 topic echo /robot_state
 
-# Terminal 3 – view camera & detections
-ros2 run rqt_image_view rqt_image_view /perception_viz
+# Terminal 3: Visualize perception
+ros2 run rqt_image_view rqt_image_view
+# Select /perception_viz topic
 
-# Terminal 4 – emergency stop
-ros2 topic pub /hardware_command std_msgs/String "data: STOP"
+# Terminal 4: Emergency stop if needed
+ros2 topic pub /hardware_command std_msgs/String "data: 'STOP:'"
 ```
 
 ---
