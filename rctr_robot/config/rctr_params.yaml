@@ -1,0 +1,73 @@
+# RCTR Robot Configuration Parameters
+
+# Hardware Interface
+hardware_interface:
+  ros__parameters:
+    serial_port: "/dev/ttyACM0"
+    baud_rate: 115200
+    timeout: 0.1
+
+# Perception
+perception_node:
+  ros__parameters:
+    # Camera settings
+    camera_topic: "/camera/image_raw"
+    use_compressed: true
+    
+    # YOLO settings
+    yolo_model_path: "yolov8n_rctr.pt"
+    confidence_threshold: 0.5
+    nms_threshold: 0.4
+    
+    # Line detection
+    line_roi_top: 0.5
+    line_threshold: 50
+    min_line_area: 500
+    
+    # Visualization
+    visualize: true
+    viz_topic: "/perception_viz"
+
+# Control
+control_node:
+  ros__parameters:
+    # Control rates
+    control_rate: 50.0  # Hz
+    
+    # Speed limits
+    base_speed: 0.3     # m/s
+    max_speed: 0.5      # m/s
+    max_angular: 2.0    # rad/s
+    
+    # Line following PID
+    line_kp: 2.0
+    line_ki: 0.1
+    line_kd: 0.5
+    
+    # Angle correction PID
+    angle_kp: 1.0
+    angle_ki: 0.05
+    angle_kd: 0.2
+    
+    # Challenge handling
+    challenge_approach_area: 10000
+    challenge_timeout: 10.0  # seconds
+
+# Robot physical parameters
+robot:
+  wheel_separation: 0.2    # meters
+  wheel_radius: 0.03       # meters
+  track_width: 0.16        # meters
+  robot_length: 0.20       # meters
+  
+  # Encoder parameters
+  encoder_counts_per_rev: 1440
+  gear_ratio: 34
+  
+  # Servo limits (degrees)
+  servo_min: 0
+  servo_max: 180
+  servo_neutral: 90
+  
+  # Reconfiguration limits
+  max_bend_angle: 56  # degrees each direction
