@@ -19,10 +19,10 @@ A modular robot‑control stack that combines an STM32 micro‑controller runnin
 | Component          | Tested Version      |
 | ------------------ | ------------------- |
 | MCU                | ST NUCLEO‑F091RC    |
-| USB ↔︎ UART bridge | On‑board ST‑LINK V2 |
-| Host PC            | Ubuntu 22.04 LTS    |
+| USB ↔︎ UART bridge | N/A |
+| Host PC            | Rasberry pi    |
 
-> ⚠️ If you use a different Nucleo board, adjust the pin mappings in `stm32_firmware/mbed_app.json`.
+>  If you use a different Nucleo board, adjust the pin mappings in `stm32_firmware/mbed_app.json`.
 
 ## Software Requirements
 
@@ -53,12 +53,22 @@ mbed compile -t GCC_ARM -m NUCLEO_F091RC  # generates ./BUILD/NUCLEO_F091RC/GCC_
 ### 2  Set‑up ROS 2 Workspace
 
 ```bash
+# Create workspace
 mkdir -p ~/rctr_ws/src
-ln -s $(pwd) ~/rctr_ws/src/rctr_robot     # symlink repo into workspace
+cd ~/rctr_ws/src
+git clone <your-repo-url> rctr_robot
+
+# Install dependencies
 cd ~/rctr_ws
 rosdep install --from-paths src --ignore-src -r -y
-pip install -r src/rctr_robot/requirements.txt   # ultralytics, opencv‑python, pyserial
+
+# Install Python packages
+pip install ultralytics opencv-python pyserial
+
+# Build
 colcon build --packages-select rctr_robot
+
+# Source
 source install/setup.bash
 ```
 
@@ -83,16 +93,18 @@ model.export(format="onnx", imgsz=640)  # use ONNX for GPU‑less inference if n
 ### 4  Run the System
 
 ```bash
-# Terminal 1 – launch entire stack
-ros2 launch rctr_robot bringup.launch.py
+# Terminal 1: Launch all nodes
+ros2 launch rctr_robot rctr_launch.py
 
-# Terminal 2 – monitor robot state\ nros2 topic echo /robot_state
+# Terminal 2: Monitor status
+ros2 topic echo /robot_state
 
-# Terminal 3 – view camera & detections
-ros2 run rqt_image_view rqt_image_view /perception_viz
+# Terminal 3: Visualize perception
+ros2 run rqt_image_view rqt_image_view
+# Select /perception_viz topic
 
-# Terminal 4 – emergency stop
-ros2 topic pub /hardware_command std_msgs/String "data: STOP"
+# Terminal 4: Emergency stop if needed
+ros2 topic pub /hardware_command std_msgs/String "data: 'STOP:'"
 ```
 
 ---
