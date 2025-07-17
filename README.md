@@ -53,12 +53,22 @@ mbed compile -t GCC_ARM -m NUCLEO_F091RC  # generates ./BUILD/NUCLEO_F091RC/GCC_
 ### 2  Set‑up ROS 2 Workspace
 
 ```bash
+# Create workspace
 mkdir -p ~/rctr_ws/src
-ln -s $(pwd) ~/rctr_ws/src/rctr_robot     # symlink repo into workspace
+cd ~/rctr_ws/src
+git clone <your-repo-url> rctr_robot
+
+# Install dependencies
 cd ~/rctr_ws
 rosdep install --from-paths src --ignore-src -r -y
-pip install -r src/rctr_robot/requirements.txt   # ultralytics, opencv‑python, pyserial
+
+# Install Python packages
+pip install ultralytics opencv-python pyserial
+
+# Build
 colcon build --packages-select rctr_robot
+
+# Source
 source install/setup.bash
 ```
 
