@@ -19,10 +19,10 @@ A modular robot‑control stack that combines an STM32 micro‑controller runnin
 | Component          | Tested Version      |
 | ------------------ | ------------------- |
 | MCU                | ST NUCLEO‑F091RC    |
-| USB ↔︎ UART bridge | On‑board ST‑LINK V2 |
-| Host PC            | Ubuntu 22.04 LTS    |
+| USB ↔︎ UART bridge | N/A |
+| Host PC            | Rasberry pi    |
 
-> ⚠️ If you use a different Nucleo board, adjust the pin mappings in `stm32_firmware/mbed_app.json`.
+>  If you use a different Nucleo board, adjust the pin mappings in `stm32_firmware/mbed_app.json`.
 
 ## Software Requirements
 
